@@ -51,7 +51,7 @@ class Item:
         self.max_damage: int = max_dmg
 
 class Monster:
-    """A monster which the Adventurer may encounter in a Room.
+    """A Monster which the Adventurer may encounter in a Room.
     
     Attributes:
         name: The display name of the monster.
@@ -68,7 +68,6 @@ class Monster:
         
         Args:
             name: The name of the Monster.
-            weapon: The Item the Monster uses to attack.
         """
         self.name: str = name
         self.strength: int = random.randint(3, 18)
