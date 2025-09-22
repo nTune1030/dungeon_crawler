@@ -36,19 +36,19 @@ class Item:
         min_dmg: The minimum damage an item can inflict, cannot be negative.
         max_dmg: The maximum damage an item can inflict, cannot be negative.
     """
-    def __init__(self, name: str, min_dmg: int, max_dmg: int) -> None:
+    def __init__(self, name: str, min_damage: int, max_damage: int) -> None:
         """Initializes the Item and it's minimum and maximum damage.
         
         Args:
-            name: The name of the Adventurer.
+            name: The name of the Item.
         """
         if name != None:
             self.name: str = name
         else:
             self.name: str = "Unknown Item"
         
-        self.min_damage: int = min_dmg
-        self.max_damage: int = max_dmg
+        self.min_damage: int = min_damage
+        self.max_damage: int = max_damage
 
 class Monster:
     """A Monster which the Adventurer may encounter in a Room.
@@ -59,17 +59,18 @@ class Monster:
         max_dmg: An integer, the maximum damage the monster can inflict.
         constitution: Constitution, on a scale of 1-18.
         strength: Strength, on a scale of 1-18.
-        dexterity: The agility of the Monster.
         hit_points: An integer, when <= 0 the Monster is dead.m,
     """
     
-    def __init__(self, name: str) -> None:
-        """Initializes the Monster with a name, weapon and some random stats.
+    def __init__(self, name: str, min_damage: int, max_damage: int) -> None:
+        """Initializes the Monster with a name and some random stats.
         
         Args:
             name: The name of the Monster.
         """
         self.name: str = name
+        self.min_damage: int = min_damage
+        self.max_damage: int = max_damage
         self.strength: int = random.randint(3, 18)
         self.constitution: int = random.randint(3, 18)
         self.hit_points: int = self.constitution + random.randint(1, 8)
@@ -97,6 +98,7 @@ class Room:
             description: A description of the Room.
         """
         self.name: str = name
+        self.treasure: Item | None = None
         self.description: str = description
         self.monster: Monster | None = None
         self.north: Room | None = None
