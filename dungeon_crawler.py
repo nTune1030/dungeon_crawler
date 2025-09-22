@@ -58,10 +58,12 @@ class Monster:
         min_dmg: An integer, the minimum damage the monster can inflict.
         max_dmg: An integer, the maximum damage the monster can inflict.
         constitution: Constitution, on a scale of 1-18.
-        weapon: The Item the monster uses to attack.
+        strength: Strength, on a scale of 1-18.
+        dexterity: The agility of the Monster.
+        hit_points: An integer, when <= 0 the Monster is dead.m,
     """
     
-    def __init__(self, name: str, weapon: Item) -> None:
+    def __init__(self, name: str) -> None:
         """Initializes the Monster with a name, weapon and some random stats.
         
         Args:
@@ -69,8 +71,9 @@ class Monster:
             weapon: The Item the Monster uses to attack.
         """
         self.name: str = name
+        self.strength: int = random.randint(3, 18)
         self.constitution: int = random.randint(3, 18)
-        self.weapon: Item = weapon
+        self.hit_points: int = self.constitution + random.randint(1, 8)
 
 class Room:
     """A Room in the Cave system.
