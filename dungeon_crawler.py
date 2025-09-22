@@ -84,10 +84,7 @@ class Room:
         treasure: An Item in the room, or None if no item is present.
         description: A description of the room.
         monster: The Monster in the room, or None if no monster is present.
-        north: The Room to the north, or None if no room is present.
-        south: The Room to the south, or None if no room is present.
-        east: The Room to the east, or None if no room is present.
-        west: The Room to the west, or None if no room is present.
+        exits: A dictionary mapping direction strings to other Room objects.
     """
     
     def __init__(self, name: str, description: str) -> None:
@@ -101,10 +98,8 @@ class Room:
         self.treasure: Item | None = None
         self.description: str = description
         self.monster: Monster | None = None
-        self.north: Room | None = None
-        self.south: Room | None = None
-        self.east: Room | None = None
-        self.west: Room | None = None
+        self.exits: dict[str, Room] = {}
+
 
 class Cave:
     """The Cave system which contains Rooms.
