@@ -1,5 +1,7 @@
 import random
 
+import random
+
 class Adventurer:
     """This class represents the user in the game.
     
@@ -22,8 +24,8 @@ class Adventurer:
         self.name: str = name
         self.strength: int = random.randint(3, 18)
         self.constitution: int = random.randint(3, 18)
-        self.hit_points: int = self.constitution + random.randint(1, 8)
-        self.bag: list[Item] = [Item("Dagger", 1, 4)]
+        self.hit_points: int = self.constitution + random.randint(10, 30)
+        self.bag: list[Item] = [Item("Butter Knife", 0, 2)]
 
 class Item:
     """ An item which can be held by an Adventurer.
@@ -72,10 +74,10 @@ class Monster:
             hit_points: The total number of hit points a monster has.
         """
         # TODO: Add input validation
-        self.name: str = name
-        self.min_damage: int = min_damage
-        self.max_damage: int = max_damage
-        self.hit_points: int = hit_points
+        self.name = name
+        self.min_damage = min_damage
+        self.max_damage = max_damage
+        self.hit_points = hit_points
     
     # class function, not a method. Used to create a random monster.
     def create_monster():
