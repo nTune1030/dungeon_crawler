@@ -33,8 +33,8 @@ class Item:
     
     Attributes:
         name: The display name of the item.
-        min_dmg: The minimum damage an item can inflict, cannot be negative.
-        max_dmg: The maximum damage an item can inflict, cannot be negative.
+        min_damage: The minimum damage an item can inflict, cannot be negative.
+        max_damage: The maximum damage an item can inflict, cannot be negative.
     """
     def __init__(self, name: str, min_damage: int, max_damage: int) -> None:
         """Initializes the Item and it's minimum and maximum damage.
@@ -55,8 +55,8 @@ class Monster:
     
     Attributes:
         name: The display name of the monster.
-        min_dmg: An integer, the minimum damage the monster can inflict.
-        max_dmg: An integer, the maximum damage the monster can inflict.
+        min_damage: An integer, the minimum damage the monster can inflict.
+        max_damage: An integer, the maximum damage the monster can inflict.
         constitution: Constitution, on a scale of 1-18.
         strength: Strength, on a scale of 1-18.
         hit_points: An integer, when <= 0 the Monster is dead.m,
