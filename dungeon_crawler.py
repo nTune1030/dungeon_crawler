@@ -7,7 +7,6 @@ class Adventurer:
     
     Attributes:
         name: Display name of the character.
-        dexterity: Dexterity, on a scale of 1-18.
         strength: Strength, on a scale of 1-18.
         constitution: Constitution, on a scale of 1-18.
         hit_points: An integer, when <=0 the character is dead.
@@ -24,7 +23,7 @@ class Adventurer:
         self.strength: int = random.randint(3, 18)
         self.constitution: int = random.randint(3, 18)
         self.hit_points: int = self.constitution + random.randint(1, 8)
-        self.bag: list[Item] = []
+        self.bag: list[Item] = [Item("Dagger", 1, 4)]
 
 class Item:
     """ An item which can be held by an Adventurer.
@@ -57,9 +56,7 @@ class Monster:
         name: The display name of the monster.
         min_damage: An integer, the minimum damage the monster can inflict.
         max_damage: An integer, the maximum damage the monster can inflict.
-        constitution: Constitution, on a scale of 1-18.
-        strength: Strength, on a scale of 1-18.
-        hit_points: An integer, when <= 0 the Monster is dead.m,
+        hit_points: An integer, when <= 0 the Monster is dead.
     """
     
     def __init__(self, name: str, min_damage: int, max_damage: int) -> None:
@@ -71,8 +68,6 @@ class Monster:
         self.name: str = name
         self.min_damage: int = min_damage
         self.max_damage: int = max_damage
-        self.strength: int = random.randint(3, 18)
-        self.constitution: int = random.randint(3, 18)
         self.hit_points: int = self.constitution + random.randint(1, 8)
 
 class Room:
