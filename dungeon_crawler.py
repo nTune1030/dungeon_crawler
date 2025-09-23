@@ -50,25 +50,47 @@ class Item:
         self.max_damage: int = max_damage
 
 class Monster:
-    """A Monster which the Adventurer may encounter in a Room.
+    """A Monster which the Adventurer may encounter in a room within the cave system.
+    
+    There are 10 different monsters, one for each room in the cave system.
+    To create a random monster call the function create_monster().
     
     Attributes:
         name: The display name of the monster.
-        min_damage: An integer, the minimum damage the monster can inflict.
-        max_damage: An integer, the maximum damage the monster can inflict.
-        hit_points: An integer, when <= 0 the Monster is dead.
+        min_damage: The minimum damage the monster can inflict. Cannot be negative.
+        max_damage: The maximum damage the monster can inflict. Cannot be negative.
+        hit_points: Total number of hit_points a monster has. Cannot be negative.
     """
     
-    def __init__(self, name: str, min_damage: int, max_damage: int) -> None:
-        """Initializes the Monster with a name and some random stats.
+    def __init__(self, name: str, min_damage: int, max_damage: int, hit_points: int) -> None:
+        """Initializes the Monster with a name and attributes.
         
         Args:
             name: The name of the Monster.
+            min_damage: The minimum damage a monster might cause.
+            max_damage: The maximum damage a monster might cause.
+            hit_points: The total number of hit points a monster has.
         """
+        # TODO: Add input validation
         self.name: str = name
         self.min_damage: int = min_damage
         self.max_damage: int = max_damage
-        self.hit_points: int = self.constitution + random.randint(1, 8)
+        self.hit_points: int = hit_points
+    
+    # class function, not a method. Used to create a random monster.
+    def create_monster():
+        monsters = ["Ghost", "Goblin", "Python"]
+        name = random.choice(monsters)
+        
+        if name == "Ghost":
+            # Teir 1 monster
+            return Monster(name, random.randint(0, 1), random.randint(1, 2), 2)
+        elif name == "Goblin":
+            # Teir 2 monster
+            return Monster(name, random.randit(0, 1), random.randint(1, 2), 10)
+        elif name == "Python":
+            # Teir 3 monster
+            return Monster(name, random.randint(3, 6), random.randint(6, 12), 5)
 
 class Room:
     """A Room in the Cave system.
