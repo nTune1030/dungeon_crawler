@@ -95,29 +95,31 @@ class Monster:
             return Monster(name, random.randint(3, 6), random.randint(6, 12), 5)
 
 class Room:
-    """A Room in the Cave system.
+    """A Room in the Cave system an Adventurer can enter.
     
-    The Room may contain a Monster, and may have connections to other Rooms.
+    The Room may has a Monster and Item (treasure) when created. In addition the Room has a method called enter.
+    Combat is resolved when the Adventurer enters the Room.
     
     Attributes:
-        treasure: An Item in the room, or None if no item is present.
-        description: A description of the room.
-        monster: The Monster in the room, or None if no monster is present.
-        exits: A dictionary mapping direction strings to other Room objects.
+        monster: The Monster in the room.
+        treasure: An item for the Adventurer when the combat is resolved.
     """
     
-    def __init__(self, name: str, description: str) -> None:
-        """Initializes the Room with a name and description.
+    def __init__(self) -> None:
+        """Initializes the Room with a random monster and item."""
+
+        self.create_monster_and_treasure()
         
-        Args:
-            name: The name of the Room.
-            description: A description of the Room.
-        """
-        self.name: str = name
-        self.treasure: Item | None = None
-        self.description: str = description
-        self.monster: Monster | None = None
-        self.exits: dict[str, Room] = {}
+    def create_monster_and_treasure(self) -> None:
+        """Creates a random monster and item for the room."""
+        
+        items = ["Wooden Club 몽둥이", "Iron Shortsword 🗡️", "Steel Longsword ⚔️", "Serrated Flame Blade 🔥", "Dragon's Tooth Greatsword 🐉"]
+        
+        self.treasure = Item(
+            name = random.choice(items),
+            min_damage = random.randint(0, 2),
+            max_damage = random.randint(4, 8),
+        )
 
 
 class Cave:
