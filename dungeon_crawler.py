@@ -82,16 +82,16 @@ class Monster:
     # class function, not a method. Used to create a random monster.
     @staticmethod
     def create_monster():
-        monsters = ["Ghost", "Goblin", "Python"]
+        monsters = ["Ghost 👻", "Goblin 👹", "Python 🐍"]
         name = random.choice(monsters)
         
-        if name == "Ghost":
+        if name == "Ghost 👻":
             # Teir 1 monster
             return Monster(name, random.randint(0, 1), random.randint(1, 2), 2)
-        elif name == "Goblin":
+        elif name == "Goblin 👹":
             # Teir 2 monster
             return Monster(name, random.randint(0, 1), random.randint(1, 2), 10)
-        elif name == "Python":
+        elif name == "Python 🐍":
             # Teir 3 monster
             return Monster(name, random.randint(3, 6), random.randint(6, 12), 5)
 
