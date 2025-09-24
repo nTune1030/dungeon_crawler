@@ -89,7 +89,7 @@ class Monster:
             return Monster(name, random.randint(0, 1), random.randint(1, 2), 2)
         elif name == "Goblin":
             # Teir 2 monster
-            return Monster(name, random.randit(0, 1), random.randint(1, 2), 10)
+            return Monster(name, random.randint(0, 1), random.randint(1, 2), 10)
         elif name == "Python":
             # Teir 3 monster
             return Monster(name, random.randint(3, 6), random.randint(6, 12), 5)
@@ -155,31 +155,32 @@ class Room:
             return True
         return False
     
-    combat_done = False
-    while not combat_done:
-        if random.randint(0, 1) == 1:
-            # Hero attacks first
-            item: Item = random.choice(hero.bag)
-            combat_done = calculate_damage(item, self.monster)
-        else:
-            # Monster attacks first
-            combat_done = calculate_damage(self.monster, hero)
+        # TODO: Implement combat loop
+        combat_done = False
+        while not combat_done:
+            if random.randint(0, 1) == 1:
+                # Hero attacks first
+                item: Item = random.choice(hero.bag)
+                combat_done = calculate_damage(item, self.monster)
+            else:
+                # Monster attacks first
+                combat_done = calculate_damage(self.monster, hero)
 
         # If the adventurer is alive after combat they win the item.
-        if hero.hit_points > 0:
-            hero.bag.append(self.treasure)
-            print(f"{hero.name} adds a {self.treasure.name} to their bag.")
-            return "win"
+            if hero.hit_points > 0:
+                hero.bag.append(self.treasure)
+                print(f"{hero.name} adds a {self.treasure.name} to their bag.")
+                return "win"
 
-        return "lose"
+            return "lose"
 
 
 class Cave:
     """The Caves contain 10 Rooms.   """
     
-    def __init__(self, entrance: Room) -> None:
+    def __init__(self) -> None:
         """Initializes the Cave with 10 Rooms."""
-        self.rooms: [Room] = []
+        self.rooms: Room = []
         for i in range(0, 10):
             self.rooms.append(Room())
 
