@@ -1,7 +1,5 @@
 import random
 
-import random
-
 class Adventurer:
     """This class represents the user in the game.
     
@@ -25,7 +23,7 @@ class Adventurer:
         self.strength: int = random.randint(3, 18)
         self.constitution: int = random.randint(3, 18)
         self.hit_points: int = self.constitution + random.randint(10, 30)
-        self.bag: list[Item] = [Item("Butter Knife", 0, 2)]
+        self.bag: list[Item] = [Item("Kithchen Knife 🔪", 0, 2)]
 
 class Item:
     """ An item which can be held by an Adventurer.
