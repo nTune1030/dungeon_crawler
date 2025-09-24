@@ -80,6 +80,7 @@ class Monster:
         self.hit_points = hit_points
     
     # class function, not a method. Used to create a random monster.
+    @staticmethod
     def create_monster():
         monsters = ["Ghost", "Goblin", "Python"]
         name = random.choice(monsters)
@@ -95,83 +96,68 @@ class Monster:
             return Monster(name, random.randint(3, 6), random.randint(6, 12), 5)
 
 class Room:
-    """A Room in the Cave system an Adventurer can enter.
-    
-    The Room may has a Monster and Item (treasure) when created. In addition the Room has a method called enter.
-    Combat is resolved when the Adventurer enters the Room.
-    
-    Attributes:
-        monster: The Monster in the room.
-        treasure: An item for the Adventurer when the combat is resolved.
-    """
+    """A Room in the Cave system an Adventurer can enter."""
     
     def __init__(self) -> None:
         """Initializes the Room with a random monster and item."""
-
         self.create_monster_and_treasure()
         
     def create_monster_and_treasure(self) -> None:
         """Creates a random monster and item for the room."""
-        
         items = ["Wooden Club 몽둥이", "Iron Shortsword 🗡️", "Steel Longsword ⚔️", "Serrated Flame Blade 🔥", "Dragon's Tooth Greatsword 🐉"]
-        
         self.treasure = Item(
-            name = random.choice(items),
-            min_damage = random.randint(0, 2),
-            max_damage = random.randint(4, 8),
+            name=random.choice(items),
+            min_damage=random.randint(0, 2),
+            max_damage=random.randint(4, 8),
         )
-
         self.monster = Monster.create_monster()
 
-    def enter(self, hero: Adventurer) -> str:
-        """A method which pits a hero against the monster in the room.
+    @staticmethod
+    def calculate_damage(attacker, defender) -> bool:
+        """Calculates damage and returns True if the defender is defeated."""
+        # Note: We use attacker's name for flavor, but the damage comes from the object
+        attacker_name = attacker.name
         
-        If the result of combat is that the hero has 0 or less hit points
-        the return value is lose otherwise it is win.
-        
-        Args:
-            hero: The Adventurer entering the Room.
-        """
-        print(f"{hero.name} enters the room and encounters a {self.monster.name}!")
+        # When the hero attacks, the attacker object is an Item, but we want the hero's name
+        if isinstance(attacker, Item):
+             attacker_name = "Hero" # A placeholder, you can pass the hero's name in for more detail
 
-    def calculate_damage(
-            attacker: Item | Monster, defender: Adventurer | Monster
-    ) -> bool:
-        """Calculates the damage from an attacker to a defender.
-        
-        Returns True if the combat has resulted in the death of the defender,
-        otherwise returns False.
-        
-        Args:
-            attacker: The attacker, either an Item or Monster.
-            defender: The defender, either an Adventurer or Monster.
-        """
         damage_done = random.randint(attacker.min_damage, attacker.max_damage)
-        defender.hit_points = defender.hit_points - damage_done
-        print(f"{attacker.name} hits {defender.name} for {damage_done} damage leaving {defender.name} with {defender.hit_points} hit points left!")
+        defender.hit_points -= damage_done
+        
+        print(f"{attacker_name} hits {defender.name} for {damage_done} damage! {defender.name} has {max(0, defender.hit_points)} HP left.")
         
         if defender.hit_points <= 0:
             print(f"{defender.name} has been defeated!")
             return True
         return False
-    
-        # TODO: Implement combat loop
-        combat_done = False
-        while not combat_done:
-            if random.randint(0, 1) == 1:
-                # Hero attacks first
-                item: Item = random.choice(hero.bag)
-                combat_done = calculate_damage(item, self.monster)
-            else:
-                # Monster attacks first
-                combat_done = calculate_damage(self.monster, hero)
 
-        # If the adventurer is alive after combat they win the item.
-            if hero.hit_points > 0:
-                hero.bag.append(self.treasure)
-                print(f"{hero.name} adds a {self.treasure.name} to their bag.")
-                return "win"
+    def enter(self, hero: Adventurer) -> str:
+        """A method which pits a hero against the monster in the room."""
+        print(f"{hero.name} enters the room and encounters a {self.monster.name}!")
+        
+        # --- COMBAT LOOP ---
+        while hero.hit_points > 0 and self.monster.hit_points > 0:
+            # Hero's turn
+            print("\n--- Hero's Turn ---")
+            weapon = hero.bag[0] # For now, just use the first weapon
+            monster_defeated = Room.calculate_damage(weapon, self.monster)
+            if monster_defeated:
+                break # Exit loop if monster is defeated
+            
+            # Monster's turn
+            print("\n--- Monster's Turn ---")
+            hero_defeated = Room.calculate_damage(self.monster, hero)
+            if hero_defeated:
+                break # Exit loop if hero is defeated
 
+        # --- AFTER COMBAT ---
+        if hero.hit_points > 0:
+            print(f"\n{hero.name} is victorious!")
+            hero.bag.append(self.treasure)
+            print(f"{hero.name} found a {self.treasure.name} and added it to their bag.")
+            return "win"
+        else:
             return "lose"
 
 
