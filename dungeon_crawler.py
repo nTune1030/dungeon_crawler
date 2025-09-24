@@ -121,18 +121,87 @@ class Room:
             max_damage = random.randint(4, 8),
         )
 
+        self.monster = Monster.create_monster()
 
-class Cave:
-    """The Cave system which contains Rooms.
-    
-    Attributes:
-        entrance: The Room which is the entrance to the Cave.
-    """
-    
-    def __init__(self, entrance: Room) -> None:
-        """Initializes the Cave with an entrance Room.
+    def enter(self, hero: Adventurer) -> str:
+        """A method which pits a hero against the monster in the room.
+        
+        If the result of combat is that the hero has 0 or less hit points
+        the return value is lose otherwise it is win.
         
         Args:
-            entrance: The Room which is the entrance to the Cave.
+            hero: The Adventurer entering the Room.
         """
-        self.entrance: Room = entrance
+        print(f"{hero.name} enters the room and encounters a {self.monster.name}!")
+
+    def calculate_damage(
+            attacker: Item | Monster, defender: Adventurer | Monster
+    ) -> bool:
+        """Calculates the damage from an attacker to a defender.
+        
+        Returns True if the combat has resulted in the death of the defender,
+        otherwise returns False.
+        
+        Args:
+            attacker: The attacker, either an Item or Monster.
+            defender: The defender, either an Adventurer or Monster.
+        """
+        damage_done = random.randint(attacker.min_damage, attacker.max_damage)
+        defender.hit_points = defender.hit_points - damage_done
+        print(f"{attacker.name} hits {defender.name} for {damage_done} damage leaving {defender.name} with {defender.hit_points} hit points left!")
+        
+        if defender.hit_points <= 0:
+            print(f"{defender.name} has been defeated!")
+            return True
+        return False
+    
+    combat_done = False
+    while not combat_done:
+        if random.randint(0, 1) == 1:
+            # Hero attacks first
+            item: Item = random.choice(hero.bag)
+            combat_done = calculate_damage(item, self.monster)
+        else:
+            # Monster attacks first
+            combat_done = calculate_damage(self.monster, hero)
+
+        # If the adventurer is alive after combat they win the item.
+        if hero.hit_points > 0:
+            hero.bag.append(self.treasure)
+            print(f"{hero.name} adds a {self.treasure.name} to their bag.")
+            return "win"
+
+        return "lose"
+
+
+class Cave:
+    """The Caves contain 10 Rooms.   """
+    
+    def __init__(self, entrance: Room) -> None:
+        """Initializes the Cave with 10 Rooms."""
+        self.rooms: [Room] = []
+        for i in range(0, 10):
+            self.rooms.append(Room())
+
+    def explore(self, hero: Adventurer) -> str:
+        """The Adventurer explores the Cave going from Room to Room.
+        
+        If the Adventurer dies in a Room the return value is 'lose'.
+        If the Adventurer clears all 10 Rooms the return value is 'win'.
+        
+        Args:
+            hero: The Adventurer exploring the Cave.
+        """
+        for room in self.rooms:
+            result = room.enter(hero)
+            if result == "lose":
+                print(f"{hero.name} has perished in the Cave.")
+                return
+            else:
+                print(f"{hero.name} has cleared the room! You now have {hero.hit_points} hit points left and {len(hero.bag)} items in your bag.")
+
+        print(f"{hero.name} has cleared the Cave!")
+
+hero = Adventurer("Conan the Barbarian")
+cave = Cave()
+cave.explore(hero)
